@@ -40,15 +40,20 @@ Show the following for each race when the data source provides it:
 - When enabled, refresh results every two minutes while the page is open. The planned schedule continues across midnight.
 - These controls are requirements only; they are not connected to live results yet.
 
-### Data sources and security
+### Priority API and results sources to check
 
-- AP Elections API remains the preferred primary results source, pending account access and license/terms confirmation.
-- AP's public documentation describes real-time national, state, and local election results and says API requests require an API key. The query explorer requires a key to inspect available event data, so exact coverage of the 2026 Vista-area contests has not yet been verified. See [AP Elections API](https://developer.ap.org/ap-elections-api/) and [Elections Request documentation](https://developer.ap.org/ap-elections-api/docs/Elections_Request.htm).
-- Public AP website terms do not establish the license for using API election data in this dashboard. Confirm the applicable API agreement and permitted display/sharing before live use.
-- If AP access uses a private key, do not expose it in browser code or commit it to this public repository. Use a small backend on this machine to retrieve protected data.
-- Identify an official fallback source for any Vista-area races AP does not cover. The City of Vista lists the 2026 municipal contests as Mayor and City Council Districts 1 and 4; exact voter contests depend on district. See [Vista election information](https://www.vista.gov/city-hall/city-clerk/election-information).
-- Supplemental sources and their priority order have not been specified.
+Check these sources in this order. This is the evaluation priority; the California Secretary of State and San Diego County Registrar are the official election authorities for their respective contests and should be used to verify or fill local-result gaps.
 
+1. **Associated Press (AP) Elections API** — Preferred primary aggregator for live results. AP says API requests and the Query Explorer require an API key. To request access, email [elections_api_info@ap.org](mailto:elections_api_info@ap.org) or contact [AP Customer Support](https://customerzone.ap.org/). Ask about 2026 Vista-area coverage, key issuance, pricing, license, and permission to display results on a public dashboard. Each request uses the `x-api-key` header. Keep the key private and out of this public repository. See [AP Elections API](https://developer.ap.org/ap-elections-api/) and [Getting Started](https://developer.ap.org/ap-elections-api/docs/Getting_Started.htm).
+2. **Decision Desk HQ (DDHQ)** — Check its results API for race and local coverage, access, licensing, and pricing. DDHQ says it offers election results through API or embed and directs prospective users to contact them for details. See [DDHQ products](https://ddhq.io/products) and [DDHQ FAQ](https://ddhq.io/faq).
+3. **California Secretary of State (SOS)** — Check the official statewide results site and Election Night data feed. The SOS guide documents a JSON API and file formats for media clients; access details are provided after signup. Confirm the 2026 access process and the races/reporting fields supplied. See [California Election Results](https://electionresults.sos.ca.gov/) and the [SOS Election Night Data-Feed Guide](https://cms.cdn.sos.ca.gov/media/1-media-guide-v16.pdf).
+4. **San Diego County Registrar of Voters (SDVote)** — Check the official live results page and downloadable reports for county, city, school, and special-district contests affecting Vista. Confirm whether a supported machine-readable feed or API is available and its update cadence. See [Current Election](https://www.sdvote.com/content/rov/en/elections/current_election.html) and [Past Election Information](https://www.sdvote.com/content/rov/en/past-election-info.html).
+
+### Data security
+
+- Do not put an AP or DDHQ secret in browser code or commit it to this public repository. Use a small backend on this machine to retrieve protected data.
+- Identify an official fallback source for any Vista-area races AP or DDHQ does not cover. Vista's 2026 municipal contests include Mayor and City Council Districts 1 and 4; a voter's exact contests depend on district. See [Vista election information](https://www.vista.gov/city-hall/city-clerk/election-information).
+- The exact API agreements, pricing, license, and display/sharing terms for AP and DDHQ still need to be confirmed before live use.
 ## Questions and outcomes
 
 This section records decisions and open questions carried forward from the design discussion.
@@ -80,7 +85,7 @@ This section records decisions and open questions carried forward from the desig
 - Obtain/confirm AP Elections API access and key; confirm the API agreement, license, fees, and display/sharing terms.
 - Use the AP query explorer with authorized access to verify which November 3, 2026 races and reporting units are available for Vista.
 - Establish the exact Vista-area contest list from official voter/precinct sources, including school and special districts, and identify an official fallback source for any AP gaps.
-- Name any supplemental data sources and their priority order.
+- Check AP, DDHQ, California SOS, and San Diego County ROV in the priority order listed above; confirm access and terms for each source.
 - Decide whether the local site should be reachable only on this machine or also by other devices on the home network. Public family/friend access would require a later hosting decision.
 - If a private AP credential is required, choose and configure the local backend that keeps it out of public source and browser code.
 
