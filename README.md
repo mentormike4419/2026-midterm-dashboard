@@ -1,22 +1,24 @@
 # 2026 Midterm Dashboard
 
-A compact, dark-mode dashboard for following 2026 U.S. midterm election results, with California, U.S. House, and U.S. Senate coverage. The goal is to make live results easy to scan and to share the finished dashboard with family and friends.
+A compact, dark-mode dashboard for following the 2026 U.S. midterm election results relevant to Vista, California. It should make results easy to scan and eventually be shareable with family and friends.
 
-> **Project status:** Requirements and design are recorded. Dashboard implementation has not started. AP API access, licensing, and race coverage still need to be verified.
+> **Project status:** Requirements are recorded; dashboard implementation has not started. AP's public documentation confirms that the Elections API provides race and result data and requires an API key. The account's access, applicable license/terms, and exact Vista-area coverage still need verification.
 
 ## Project summary
 
-The dashboard will present election results in a full-width, compact layout. It will show vote totals, margins, percentages, and how much of each race has reported. Called races will be marked with a green check. Users will be able to favorite races and see those favorites with the same vote bars and result details used in the main race lists.
+The dashboard will show all races and ballot measures on the November 3, 2026 ballot for Vista residents, including applicable federal, state, county, city, school, and special-district contests. The exact local contests can vary by voter address and district. For example, Vista's 2026 municipal election includes the mayor's race and City Council Districts 1 and 4.
 
-The repository is public, as requested. A public repository can be viewed by anyone on the internet; sharing a future dashboard link with family and friends does not restrict the site to those people. Hosting and audience controls for the dashboard itself have not yet been selected.
+Use a full-width, compact layout. Show vote totals, margins, percentages, and reporting progress when available. Mark called races with a green check. Users can favorite races and see those favorites with the same vote bars and result details as the main race lists.
+
+The repository is public. For now, run the dashboard on this machine; no external hosting or deployment has been selected. A local server is not automatically reachable by family and friends, so public sharing will require a later hosting decision.
 
 ## Recorded requirements
 
 ### Layout and navigation
 
-- Use dark mode.
-- Use a full-width, compact dashboard layout.
-- Organize results into California, U.S. House, and U.S. Senate sections.
+- Use dark mode and a full-width, compact layout.
+- Organize results into California, U.S. House, U.S. Senate, and Vista-area local sections as appropriate.
+- Cover all contests relevant to Vista residents, including federal, state, county, city, school, special-district races, and ballot measures where applicable.
 - Include a favorites area. Favorite races should retain the same vote bars and information as races in the regular sections.
 - Do not add a search bar, unnecessary labels, or extra controls.
 
@@ -36,27 +38,29 @@ Show the following for each race when the data source provides it:
 - Place **Start Auto Update** and **Stop Auto Update** controls near Refresh.
 - Automatic updating must be **off by default**, including when the dashboard is reopened.
 - When enabled, refresh results every two minutes while the page is open. The planned schedule continues across midnight.
-- The design conversation described these controls as design-only; they are not connected to live results yet.
+- These controls are requirements only; they are not connected to live results yet.
 
 ### Data sources and security
 
-- Use the AP Elections API as the primary results source, subject to confirming access, terms/licensing, and coverage.
-- The conversation refers to additional user-prioritized sources, but their names and exact priority order were not present in the retrieved conversation record. Confirm those before implementation; do not infer them.
-- If AP access uses a private key, do not expose it in browser code or commit it to this public repository. Use a small backend or serverless function to retrieve protected data.
-- Confirm AP coverage for the local races the user wants to follow.
+- AP Elections API remains the preferred primary results source, pending account access and license/terms confirmation.
+- AP's public documentation describes real-time national, state, and local election results and says API requests require an API key. The query explorer requires a key to inspect available event data, so exact coverage of the 2026 Vista-area contests has not yet been verified. See [AP Elections API](https://developer.ap.org/ap-elections-api/) and [Elections Request documentation](https://developer.ap.org/ap-elections-api/docs/Elections_Request.htm).
+- Public AP website terms do not establish the license for using API election data in this dashboard. Confirm the applicable API agreement and permitted display/sharing before live use.
+- If AP access uses a private key, do not expose it in browser code or commit it to this public repository. Use a small backend on this machine to retrieve protected data.
+- Identify an official fallback source for any Vista-area races AP does not cover. The City of Vista lists the 2026 municipal contests as Mayor and City Council Districts 1 and 4; exact voter contests depend on district. See [Vista election information](https://www.vista.gov/city-hall/city-clerk/election-information).
+- Supplemental sources and their priority order have not been specified.
 
 ## Questions and outcomes
 
-This section records the questions and answers visible in the conversation history retrieved for this project. The earlier individual design-answer turns were not available; the consolidated design decisions above preserve the requirements that were present in the retrieved summary.
+This section records decisions and open questions carried forward from the design discussion.
 
 | Question or request | Outcome recorded |
 | --- | --- |
-| “Is that it? Any more questions?” | The design was considered settled. No more design questions were needed at that point. Remaining work was implementation, including checking AP access, licensing, and local-race coverage. |
-| Add auto-update and stop-auto-update buttons near Refresh, with auto-updating off | Accepted. Add manual Refresh and Start/Stop Auto Update controls near the top. Auto-update defaults off, refreshes every two minutes while enabled and the page is open, and returns to off when the dashboard is reopened. |
-| Does this need to be a Work chat? | ChatGPT Work was recommended for implementation. The design discussion could remain in the current chat, and implementation was to wait until the user explicitly said to begin. |
-| Can the dashboard be pushed to a repository and run from there? | Yes. The proposed approach was to store source, configuration, and documentation in GitHub; consider GitHub Pages for hosting; use GitHub Actions for automated deployment; and connect AP results after access is verified. If the AP key is private, use a backend/serverless function so it is not exposed to browsers. Hosting was not finalized. |
-| Is there already a repository, or should one be created? | A new repository was requested. The user later created it manually: [`mentormike4419/2026-midterm-dashboard`](https://github.com/mentormike4419/2026-midterm-dashboard). |
-| Should the project be public or private? | The user chose public and said the goal is to share the dashboard link with family and friends. The repository is public. This does not by itself publish a working dashboard or decide who can access a future hosted site. |
+| What should the dashboard include? | Dark, compact results for the 2026 midterms, with favorites, vote bars, vote counts, margins, percentages, reporting progress, called-race indicators, manual refresh, and opt-in two-minute auto-update. |
+| Which local races should be covered? | All races and measures relevant to Vista, CA residents, with local district-level differences accounted for. |
+| Should AP access be checked? | Yes. Public documentation was checked: an API key is required, but account access, API license/terms, and exact Vista race coverage remain unverified. |
+| Where should it be hosted? | On this machine for now. External hosting and access for family/friends remain undecided. |
+| Should the repository be public or private? | Public, as requested. This does not make a locally hosted dashboard publicly accessible. |
+| Is implementation underway? | No. The repository currently records requirements only; begin implementation after the user explicitly says to start. |
 
 ## Decisions versus open items
 
@@ -64,20 +68,22 @@ This section records the questions and answers visible in the conversation histo
 
 - Project name: **2026 Midterm Dashboard**.
 - Repository: [`mentormike4419/2026-midterm-dashboard`](https://github.com/mentormike4419/2026-midterm-dashboard), public.
-- Results scope: California, U.S. House, and U.S. Senate.
+- Scope: all races and ballot measures relevant to Vista, California residents.
 - Visual direction: dark mode, full width, compact.
 - Features: favorites, vote bars, vote counts, margins, percentages, reporting progress, called-race checkmarks, manual refresh, and opt-in two-minute auto-update.
-- Automatic updates start disabled and stay disabled after reopening the dashboard.
-- No dashboard build has started; wait for the user to say when to begin.
+- Automatic updates start disabled and stay disabled after reopening.
+- Host on this machine for now.
+- No dashboard build has started.
 
 ### To resolve before live-results implementation
 
-- Verify AP Elections API access, permitted use, licensing/terms, and data coverage.
-- Confirm the exact supplemental sources and their priority order; these names were not present in the retrieved conversation history.
-- Confirm which local races should be included and whether AP covers them.
-- Choose hosting after checking AP access. GitHub Pages and GitHub Actions were discussed as options, not final decisions.
-- If a private AP credential is required, choose and configure a backend/serverless approach that keeps it out of public source and browser code.
+- Obtain/confirm AP Elections API access and key; confirm the API agreement, license, fees, and display/sharing terms.
+- Use the AP query explorer with authorized access to verify which November 3, 2026 races and reporting units are available for Vista.
+- Establish the exact Vista-area contest list from official voter/precinct sources, including school and special districts, and identify an official fallback source for any AP gaps.
+- Name any supplemental data sources and their priority order.
+- Decide whether the local site should be reachable only on this machine or also by other devices on the home network. Public family/friend access would require a later hosting decision.
+- If a private AP credential is required, choose and configure the local backend that keeps it out of public source and browser code.
 
 ## Implementation boundary
 
-This repository currently captures requirements only. Do not treat the README as evidence that the UI, data integration, refresh behavior, API access, or deployment has been implemented or verified. Begin implementation only after the user says to start.
+This repository currently captures requirements only. Do not treat the README as evidence that the UI, data integration, refresh behavior, AP account access, API terms, or deployment has been implemented or verified. Begin implementation only after the user says to start.
